@@ -68,7 +68,7 @@ function handleFile(file) {
 
 async function renderPage(pdf, pageNum) {
     const page = await pdf.getPage(pageNum);
-    const scale = 2.0;  // Good quality
+    const scale = 4.0;  // Ultra high quality
     const viewport = page.getViewport({ scale });
     const canvas = document.createElement('canvas');
     canvas.width = viewport.width;
