@@ -1,25 +1,105 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: Arial, sans-serif; background: #1a1a2e; min-height: 100vh;
-       display: flex; flex-direction: column; align-items: center; justify-content: center; }
+body { 
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+  background: #111; 
+  color: #ddd;
+  height: 100vh;
+  display: flex; 
+  flex-direction: column; 
+  overflow: hidden;
+}
 
-#upload-zone { width: 480px; padding: 60px; border: 2px dashed #4A90D9;
-  border-radius: 16px; text-align: center; color: #aaa; cursor: pointer; }
-#upload-zone:hover { border-color: #fff; color: #fff; }
+#top-bar {
+  height: 50px;
+  background: #1a1a1a;
+  border-bottom: 1px solid #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.logo { font-size: 18px; font-weight: bold; color: #fff; }
+
+.controls button {
+  background: #333;
+  border: 1px solid #444;
+  color: #ddd;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 13px;
+}
+.controls button:hover { background: #444; color: #fff; }
+
+#upload-zone { 
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.upload-message {
+  width: 400px; padding: 50px; border: 2px dashed #555;
+  border-radius: 12px; text-align: center; color: #888; cursor: pointer;
+}
+.upload-message:hover { border-color: #888; color: #ccc; }
 #upload-zone input[type=file] { display: none; }
 
-#book-container { display: none; position: relative; }  /* shown via JS after PDF loads */
-#book { width: 900px; height: 600px; }  /* StPageFlip fills this */
+#book-container { 
+  flex: 1; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  position: relative;
+  background: #0a0a0a;
+}
+#book { 
+  /* Size is controlled by StPageFlip, we just center it */
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+}
 
-#progress-ring { position: absolute; top: 12px; right: 12px;
-  background: rgba(0,0,0,0.55); border-radius: 50px;
-  padding: 6px 12px 6px 6px; display: flex; align-items: center;
-  gap: 6px; color: white; font-size: 13px; z-index: 10; }
+.side-btn {
+  background: transparent;
+  border: none;
+  color: #555;
+  font-size: 48px;
+  cursor: pointer;
+  padding: 20px;
+  height: 100%;
+  transition: color 0.2s;
+}
+.side-btn:hover { color: #fff; }
 
-#stats-bar { position: absolute; bottom: 12px; left: 12px;
-  background: rgba(0,0,0,0.55); border-radius: 50px;
-  padding: 8px 16px; color: white; font-size: 13px; z-index: 10; }
+#bottom-bar {
+  height: 60px;
+  background: #1a1a1a;
+  border-top: 1px solid #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 40px;
+}
 
-#nav-controls { margin-top: 20px; display: flex; gap: 20px; align-items: center; color: white; }
-#nav-controls button { padding: 8px 24px; border-radius: 8px; border: none;
-  background: #4A90D9; color: white; cursor: pointer; font-size: 14px; }
-#nav-controls button:hover { background: #357ABD; }
+.stats-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: #aaa;
+  margin-bottom: 8px;
+}
+
+.progress-container {
+  width: 100%;
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+#progress-fill {
+  height: 100%;
+  width: 0%;
+  background: #ddd;
+  transition: width 0.3s ease;
+}
