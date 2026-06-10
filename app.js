@@ -80,22 +80,20 @@ async function renderPage(pdf, pageNum) {
 
 function initPageFlip() {
     if (pageFlip) {
-        pageFlip.destroy();
+        try { pageFlip.destroy(); } catch (e) {}
     }
     
-    // Create a fresh book div to avoid leftover DOM elements or inline styles
-    const oldBook = document.getElementById('book');
-    const newBook = document.createElement('div');
-    newBook.id = 'book';
-    newBook.style.boxShadow = '0 0 20px rgba(0,0,0,0.8)';
-    oldBook.parentNode.replaceChild(newBook, oldBook);
+    // Completely wipe the wrapper to remove any extra elements StPageFlip created
+    const wrapper = document.getElementById('flipbook-wrapper');
+    wrapper.innerHTML = '<div id="book" style="box-shadow: 0 0 20px rgba(0,0,0,0.8);"></div>';
+    const newBook = document.getElementById('book');
     
     // In 2-page view, the book width is split across two pages. In 1-page, the book width is one page.
     const pageWidth = isTwoPageView ? 450 : 600;
     const pageHeight = isTwoPageView ? 600 : 800;
 
     // Constrain wrapper width to force portrait mode in 1-page view
-    document.getElementById('flipbook-wrapper').style.width = isTwoPageView ? 'auto' : pageWidth + 'px';
+    wrapper.style.width = isTwoPageView ? 'auto' : pageWidth + 'px';
 
     pageFlip = new St.PageFlip(newBook, {
         width: pageWidth,
