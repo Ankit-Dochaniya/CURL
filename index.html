@@ -11,9 +11,10 @@
   
   <div id="top-bar">
     <div class="logo">PDF Reader</div>
-    <div class="controls">
-      <button id="btn-toggle-view">Switch to 1-Page View</button>
-      <button id="btn-upload" onclick="document.getElementById('file-input').click()">Upload New PDF</button>
+    <div class="top-nav">
+      <!-- View toggle removed as requested -->
+      <label for="pdf-upload" class="upload-btn">Upload New PDF</label>
+      <input type="file" id="pdf-upload" accept="application/pdf">
     </div>
   </div>
 

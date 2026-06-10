@@ -4,7 +4,6 @@ let currentPage = 1;
 let pageTimes = [];
 let msPerPage = 0;
 let pageImages = [];
-let isTwoPageView = true;
 
 // Initialize pdf.js worker
 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -24,6 +23,8 @@ fileInput.addEventListener('change', (e) => {
     if (e.target.files.length) handleFile(e.target.files[0]);
 });
 
+let pdfAspectRatio = 0.75; // default aspect ratio
+
 function handleFile(file) {
     if (file.type !== 'application/pdf') {
         alert('Please upload a PDF file.');
@@ -40,9 +41,19 @@ function handleFile(file) {
             totalPages = pdf.numPages;
             pageImages = [];
             
+            // Get aspect ratio from the first page
+            const firstPage = await pdf.getPage(1);
+            const vp = firstPage.getViewport({ scale: 1 });
+            pdfAspectRatio = vp.width / vp.height;
+            
+            // Calculate an optimal scale to generate high quality images
+            // We want images around 1800px tall to avoid massive downscaling artifacts
+            const targetHeight = 1800;
+            const optimalScale = targetHeight / vp.height;
+            
             for (let i = 1; i <= totalPages; i++) {
                 document.getElementById('upload-zone').innerHTML = `<div class="upload-message">Rendering page ${i} of ${totalPages}...</div>`;
-                const imgDataUrl = await renderPage(pdf, i);
+                const imgDataUrl = await renderPage(pdf, i, optimalScale);
                 pageImages.push(imgDataUrl);
             }
             
@@ -66,10 +77,9 @@ function handleFile(file) {
     reader.readAsArrayBuffer(file);
 }
 
-async function renderPage(pdf, pageNum) {
+async function renderPage(pdf, pageNum, scale) {
     const page = await pdf.getPage(pageNum);
-    const scale = 4.0;  // Ultra high quality
-    const viewport = page.getViewport({ scale });
+    const viewport = page.getViewport({ scale: scale });
     const canvas = document.createElement('canvas');
     canvas.width = viewport.width;
     canvas.height = viewport.height;
@@ -88,24 +98,50 @@ function initPageFlip() {
     wrapper.innerHTML = '<div id="book" style="box-shadow: 0 0 20px rgba(0,0,0,0.8);"></div>';
     const newBook = document.getElementById('book');
     
-    // In 2-page view, the book width is split across two pages. In 1-page, the book width is one page.
-    const pageWidth = isTwoPageView ? 450 : 600;
-    const pageHeight = isTwoPageView ? 600 : 800;
+    // Populate the book with HTML elements containing images
+    pageImages.forEach((src) => {
+        const pageDiv = document.createElement('div');
+        pageDiv.className = 'my-page';
+        pageDiv.style.backgroundColor = 'white';
+        
+        const img = document.createElement('img');
+        img.src = src;
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.objectFit = 'contain';
+        img.style.display = 'block';
+        img.style.pointerEvents = 'none'; // prevent image dragging
+        
+        pageDiv.appendChild(img);
+        newBook.appendChild(pageDiv);
+    });
 
-    // Constrain wrapper width to force portrait mode in 1-page view
-    wrapper.style.width = isTwoPageView ? 'auto' : pageWidth + 'px';
+    // Set the base aspect ratio for StPageFlip.
+    const baseHeight = 1000;
+    const baseWidth = baseHeight * pdfAspectRatio;
+
+    // Force 1-page portrait mode by constraining the wrapper width exactly
+    const expectedWidth = wrapper.clientHeight * pdfAspectRatio;
+    wrapper.style.width = expectedWidth + 'px';
+    wrapper.style.height = '100%';
 
     pageFlip = new St.PageFlip(newBook, {
-        width: pageWidth,
-        height: pageHeight,
-        showCover: isTwoPageView, // Only separate cover in 2-page mode
+        width: baseWidth,
+        height: baseHeight,
+        size: "stretch",
+        minWidth: 300,
+        maxWidth: 3000,
+        minHeight: 400,
+        maxHeight: 3000,
+        showCover: false, // 1-page view doesn't separate cover
         mobileScrollSupport: false,
         useMouseEvents: true,
-        usePortrait: true, // MUST be true to allow falling back to 1-page portrait mode
+        usePortrait: true, // MUST be true to allow 1-page portrait mode
         maxShadowOpacity: 0.15
     });
     
-    pageFlip.loadFromImages(pageImages);
+    // Pass the DOM elements to StPageFlip instead of the raw data URLs
+    pageFlip.loadFromHTML(document.querySelectorAll('.my-page'));
     
     // Wait for flipbook to initialize before turning to the current page
     pageFlip.on('init', () => {
