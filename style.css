@@ -1,0 +1,25 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: Arial, sans-serif; background: #1a1a2e; min-height: 100vh;
+       display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+#upload-zone { width: 480px; padding: 60px; border: 2px dashed #4A90D9;
+  border-radius: 16px; text-align: center; color: #aaa; cursor: pointer; }
+#upload-zone:hover { border-color: #fff; color: #fff; }
+#upload-zone input[type=file] { display: none; }
+
+#book-container { display: none; position: relative; }  /* shown via JS after PDF loads */
+#book { width: 900px; height: 600px; }  /* StPageFlip fills this */
+
+#progress-ring { position: absolute; top: 12px; right: 12px;
+  background: rgba(0,0,0,0.55); border-radius: 50px;
+  padding: 6px 12px 6px 6px; display: flex; align-items: center;
+  gap: 6px; color: white; font-size: 13px; z-index: 10; }
+
+#stats-bar { position: absolute; bottom: 12px; left: 12px;
+  background: rgba(0,0,0,0.55); border-radius: 50px;
+  padding: 8px 16px; color: white; font-size: 13px; z-index: 10; }
+
+#nav-controls { margin-top: 20px; display: flex; gap: 20px; align-items: center; color: white; }
+#nav-controls button { padding: 8px 24px; border-radius: 8px; border: none;
+  background: #4A90D9; color: white; cursor: pointer; font-size: 14px; }
+#nav-controls button:hover { background: #357ABD; }
