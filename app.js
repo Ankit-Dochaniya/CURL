@@ -81,25 +81,44 @@ async function renderPage(pdf, pageNum) {
 function initPageFlip() {
     if (pageFlip) {
         pageFlip.destroy();
-        bookDiv.innerHTML = '';
     }
     
+    // Create a fresh book div to avoid leftover DOM elements or inline styles
+    const oldBook = document.getElementById('book');
+    const newBook = document.createElement('div');
+    newBook.id = 'book';
+    newBook.style.boxShadow = '0 0 20px rgba(0,0,0,0.8)';
+    oldBook.parentNode.replaceChild(newBook, oldBook);
+    
     // In 2-page view, the book width is split across two pages. In 1-page, the book width is one page.
-    // We adjust the StPageFlip width to make the book roughly the same size on screen.
     const pageWidth = isTwoPageView ? 450 : 600;
     const pageHeight = isTwoPageView ? 600 : 800;
 
-    pageFlip = new St.PageFlip(bookDiv, {
+    // Constrain wrapper width to force portrait mode in 1-page view
+    document.getElementById('flipbook-wrapper').style.width = isTwoPageView ? 'auto' : pageWidth + 'px';
+
+    pageFlip = new St.PageFlip(newBook, {
         width: pageWidth,
         height: pageHeight,
         showCover: isTwoPageView, // Only separate cover in 2-page mode
         mobileScrollSupport: false,
         useMouseEvents: true,
-        usePortrait: !isTwoPageView, // false means force 2-page. true means force 1-page
+        usePortrait: true, // MUST be true to allow falling back to 1-page portrait mode
         maxShadowOpacity: 0.15
     });
     
     pageFlip.loadFromImages(pageImages);
+    
+    // Wait for flipbook to initialize before turning to the current page
+    pageFlip.on('init', () => {
+        if (currentPage > 1) {
+            try {
+                pageFlip.turnToPage(currentPage - 1);
+            } catch (e) {
+                console.error("Error turning page on init:", e);
+            }
+        }
+    });
     
     pageFlip.on('flip', (e) => {
         const newPage = e.data + 1;
@@ -111,12 +130,6 @@ function initPageFlip() {
         currentPage = newPage;
         updateUI();
     });
-    
-    // If re-initializing, jump to current page
-    if (currentPage > 1) {
-        // If switching view modes, try to keep the same content visible
-        pageFlip.turnToPage(currentPage - 1);
-    }
 }
 
 function calculatePace() {
