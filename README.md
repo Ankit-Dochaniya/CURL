@@ -1,7 +1,6 @@
 # CURL 📖
 
-[![Vercel Deploy](https://img.shields.io/badge/Deployed_on-Vercel-black?logo=vercel)](https://curl-blush.vercel.app)
-[![Download APK](https://img.shields.io/badge/Download-Android_APK-green?logo=android)](https://github.com/Ankit-Dochaniya/CURL/raw/main/CURL-Android-App.apk)
+
 
 **[🌐 Visit the Website!](https://curl-blush.vercel.app)**
 <br>
