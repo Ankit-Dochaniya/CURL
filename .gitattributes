@@ -1,0 +1,4 @@
+dist/** linguist-vendored=true
+public/page-flip.browser.js linguist-vendored=true
+android/app/src/main/res/** linguist-vendored=true
+build_spec.js linguist-vendored=true
