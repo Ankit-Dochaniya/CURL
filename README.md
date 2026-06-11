@@ -2,7 +2,7 @@
 
 
 
-**[<img src="https://cdn.simpleicons.org/vercel/white" width="16"/> Visit the Website!](https://curl-blush.vercel.app)**
+**[🌐 Visit the Website!](https://curl-blush.vercel.app)**
 <br>
 **[<img src="https://cdn.simpleicons.org/android/3DDC84" width="16"/> Download the Android App!](https://github.com/Ankit-Dochaniya/CURL/raw/main/CURL-Android-App.apk)**
 <br>
