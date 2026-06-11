@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">curl</string>
+    <string name="title_activity_main">curl</string>
+    <string name="package_name">com.curl.app</string>
+    <string name="custom_url_scheme">com.curl.app</string>
+</resources>
