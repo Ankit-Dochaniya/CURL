@@ -5,6 +5,8 @@
 **[🌐 Visit the Website!](https://curl-blush.vercel.app)**
 <br>
 **[📱 Download the Android App!](https://github.com/Ankit-Dochaniya/CURL/raw/main/CURL-Android-App.apk)**
+<br>
+**[🍏 Download the iOS App!](https://github.com/Ankit-Dochaniya/CURL/actions/workflows/ios.yml)**
 
 CURL is a modern, cross-platform PDF reading application featuring beautiful page-flip animations and reading progress tracking. Built as a web application and packaged as a native Android app using Capacitor.
 
@@ -17,10 +19,23 @@ CURL is a modern, cross-platform PDF reading application featuring beautiful pag
 
 ## 🚀 Getting Started
 
-### Prerequisites
-Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
+### 📱 Installing on Android
 
-### Installation
+Simply click the **"Download the Android App!"** link at the top of the page. Once downloaded, tap the `CURL-Android-App.apk` file on your device to install it directly!
+
+### 🍎 Installing on iOS (iPad/iPhone)
+
+Apple's security policies require a slightly different process for installing apps outside the App Store. You can easily install CURL using a free sideloading tool:
+
+1. **Download the App**: Click the **"Download the iOS App!"** link at the top of this page. This will take you to the GitHub Actions page. Click the latest successful build and download the `CURL-iOS-Unsigned` artifact. Extract the `.zip` to get the `.ipa` file.
+2. **Download Sideloadly**: Install [Sideloadly](https://sideloadly.io/) on your Windows or Mac computer.
+3. **Connect your Device**: Plug your iPad or iPhone into your computer using a USB cable.
+4. **Install**: Open Sideloadly, drag the downloaded `.ipa` file into the window, enter your Apple ID, and click **Start**. 
+5. **Trust the App**: On your iOS device, go to *Settings > General > VPN & Device Management*, tap your Apple ID, and select "Trust".
+
+*Note: Because this uses a free personal Apple ID, Apple requires you to quickly re-sync the app via Sideloadly every 7 days.*
+
+### 💻 Running on Windows (Web Version)
 
 1. **Clone the repository:**
    ```bash
@@ -44,22 +59,6 @@ Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
    ```bash
    npm run dev
    ```
-
-### 📱 Android Development
-
-This project uses Capacitor to generate the Android app. 
-
-To build the web assets and sync them to Android:
-```bash
-npm run build
-npx cap sync android
-```
-
-To compile the APK:
-```bash
-cd android
-./gradlew assembleDebug
-```
 
 ## 🛠️ Built With
 
