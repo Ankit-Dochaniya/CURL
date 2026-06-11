@@ -1,7 +1,7 @@
 # CURL 📖
 
-[![Vercel Deploy](https://img.shields.io/badge/Deployed_on-Vercel-black?logo=vercel)](https://curl-pay0wl0jb-ankitsprojects.vercel.app)
-**[Live Demo: Play with CURL on Vercel!](https://curl-pay0wl0jb-ankitsprojects.vercel.app)**
+[![Vercel Deploy](https://img.shields.io/badge/Deployed_on-Vercel-black?logo=vercel)](https://curl-blush.vercel.app)
+**[Live Demo: Play with CURL on Vercel!](https://curl-blush.vercel.app)**
 
 CURL is a modern, cross-platform PDF reading application featuring beautiful page-flip animations and reading progress tracking. Built as a web application and packaged as a native Android app using Capacitor.
 
